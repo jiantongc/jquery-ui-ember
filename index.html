@@ -30,39 +30,63 @@
       <section>
         <h1>jquery-ui-ember</h1>
 
-<p>Forked Luke Melia's <a href="https://github.com/lukemelia/jquery-ui-ember">jquery-ui-ember repo</a>. While trying to use found out that same View cannot have two jquery UI types because of overriding of 'uioptions', 'uitype', 'uievents' variables and values. So to avoid the problem had to create different mixins for draggable, droppable, resizeable as they are the main ones that can be mixed with other jquery UI types.</p>
+<p>Forked Luke Melia's <a href="https://github.com/lukemelia/jquery-ui-ember">jquery-ui-ember repo</a>. While working onit, found out that same View cannot have two jquery UI Interactions because of overriding of 'uioptions', 'uitype', 'uievents' variables and values. So to avoid the problem had to create different mixins for draggable, droppable, resizeable as they are the main ones that can be mixed with other jquery UI types.</p>
 
 <h2>Quick start</h2>
 
-<p>Now same view can have two different jquery UI widgets. </p>
+<p>Now same view can have two different jquery UI Interactions. </p>
 
-<p>Eg.</p>
+<h2>How to Use</h2>
+
+<p>First you may want to go through <a href="http://www.lukemelia.com/blog/archives/2012/03/10/using-ember-js-with-jquery-ui/">Luke's blog</a> how exactly the a view of Ember.js can have jqueryUI implemented.
+But this only works when a Ember View requires only one Jquery UI widget/interaction. So as to make a view have multiple JqueryUI interactions following mixins are added.</p>
+
+<pre>
+// Drag Interaction Mixin
+JQ.Draggable = Em.Mixin.create( JQ.DragWidget, {
+  uiDragOptions: ['disabled_drag', 'addClasses_drag', 'appendTo_drag', 'axis_drag', 'cancel_drag', 'connectToSortable_drag', 'containment_drag', 'cursor_drag', 
+              'delay_drag', 'distance_drag', 'grid_drag', 'handle_drag','helper_drag','iframeFix_drag','opacity_drag','scope_drag', 'snap_drag', 'snapMode_drag', 'stack_drag'],
+  uiDragEvents: ['create_drag', 'start_drag', 'drag_drag', 'stop_drag'],
+});
+
+//Drop Interaction Mixin
+JQ.Droppable = Em.Mixin.create( JQ.DropWidget, {
+  uiDropOptions: ['accept_drop', 'accept_drop', 'addClasses_drop', 'disabled_drop', 'greedy_drop', 'hoverClass_drop', 'scope_drop','tolerance_drop' ],
+  uiDropEvents: ['create_drop', 'activate_drop', 'deactivate_drop', 'over_drop', 'out_drop', 'drop_drop'],
+
+});
+
+//Resize Interaction Mixin
+JQ.Resizable = Ember.Mixin.create( JQ.ResizeWidget, {
+    uiResizeOptions: ['disabled_resize', 'alsoResize_resize', 'animate_resize', 'animateDuration_resize', 'animateEasing_resize', 'aspectRatio_resize', 'autoHide_resize', 'cancel_resize', 
+              'containment_resize', 'delay_resize', 'distance_resize', 'ghost_resize', 'grid_resize', 'handles_resize', 'helper_resize', 'maxHeight_resize', 'maxWidth_resize', 'minHeight_resize',
+              'minWidth_resize'],
+    uiResizeEvents: ['create_resize', 'start_resize', 'resize_resize', 'stop_resize']
+});
+</pre>
+
+<p>Now you can use these mixins like following.</p>
 
 <pre>
 App.ResizeDragDiv = App.BlockView.extend(JQ.Resizable, JQ.Draggable, {
   template:Ember.Handlebars.compile('Resize &amp; DRAG'),
   classNames: ['backcolor'],
   resize_resize:function(){
-    console.log(this);
+    //console.log(this);
+  },
+  drag_drag: function(){
+    //console.log(this);
+  },
+  stop_resize:function(){
+    //console.log(this);
   }
 });
 </pre>
 
-<p>Run index.html to check an example</p>
-
-<h2>Developers</h2>
-
-<p>Srikanth</p>
-
-<h2>Authors</h2>
-
-<p>Luke Melia</p>
-
-<h2>Notice</h2>
+<p>Run index.html in the repo to check the example.
+You can add more interaction the same way.</p>
 
 <p>new to opensource and github, so let me know any issues</p>
-
-<h2>Copyright and license</h2>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/thecodejack">thecodejack</a></p>
